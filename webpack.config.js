@@ -1,6 +1,7 @@
 const path = require('path');
 const srcPath = 'client/app/src/views';
 const distPath = 'client/app/dist';
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const entryFileLocation = path.resolve(__dirname, srcPath, 'main.js');
 console.log(entryFileLocation);
 module.exports = {
@@ -20,4 +21,5 @@ module.exports = {
       },
     ],
   },
+  plugins: [new HtmlWebpackPlugin()],
 };
