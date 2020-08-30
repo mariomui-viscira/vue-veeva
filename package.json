@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.1",
+    "webpack": "^4.44.1"
+  }
 }
