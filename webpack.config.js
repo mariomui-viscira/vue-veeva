@@ -1,7 +1,7 @@
 const path = require('path');
 const srcPath = 'client/app/src';
 const viewPath = 'client/app/src/views';
-const sharedPath = 'client/app/src/views';
+// const sharedPath = 'client/app/src/shared';
 
 const distPath = 'client/app/dist';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -28,7 +28,7 @@ module.exports = {
   mode: 'development',
   entry: {
     ...entryPoints,
-    shared: path.resolve(__dirname, sharedPath, 'shared', 'local.js'),
+    shared: path.resolve(__dirname, viewPath, 'shared', 'local.js'),
   },
   output: {
     filename: '[name]/local.js',
@@ -47,19 +47,19 @@ module.exports = {
         test: /\.html$/,
         use: ['html-loader'],
       },
-      {
-        test: /.(js)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[hash].[ext]',
-              outputPath: 'shared',
-              esModule: false,
-            },
-          },
-        ],
-      },
+      // {
+      //   test: /.(js)$/,
+      //   use: [
+      //     {
+      //       loader: 'file-loader',
+      //       options: {
+      //         name: '[name].[hash].[ext]',
+      //         outputPath: 'shared',
+      //         esModule: false,
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   },
   plugins: htmlWebpackPluginConfigs,
