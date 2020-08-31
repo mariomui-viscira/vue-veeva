@@ -1,9 +1,9 @@
-import './style.scss';
+// import './style.scss';
 import Vue from 'vue';
-// import router from './router';
+import router from './vue/router';
 // import store from './store';
 
-import App from './vue/App.vue';
+import App from './App.vue';
 document.addEventListener('DOMContentLoaded', () => {
   console.log('firstslide');
   const $h1 = document.createElement('h1');
@@ -20,7 +20,7 @@ Vue.config.productionTip = false;
 // });
 
 new Vue({
-  // router,
+  router,
   // store,
   render: (h) => h(App),
 }).$mount('#app');

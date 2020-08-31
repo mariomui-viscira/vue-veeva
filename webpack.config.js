@@ -30,6 +30,7 @@ const htmlWebpackPluginConfigs = slides.map((slideName) => {
 module.exports = {
   mode: 'development',
   resolve: {
+    alias: [],
     extensions: ['vue', '.wasm', '.mjs', '.js', '.json', 'scss'],
   },
   entry: {
