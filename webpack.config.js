@@ -5,8 +5,10 @@ const viewPath = 'client/app/src/views';
 
 const distPath = 'client/app/dist';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const entryFileLocation = path.resolve(__dirname, viewPath, 'main.js');
-console.log(entryFileLocation);
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+// const entryFileLocation = path.resolve(__dirname, viewPath, 'main.js');
+// console.log(entryFileLocation);
 
 const slides = ['firstslide', 'secondslide'];
 const entryPoints = slides.reduce((accum, slideName) => {
@@ -62,20 +64,32 @@ module.exports = {
       // },
     ],
   },
-  plugins: htmlWebpackPluginConfigs,
+  plugins: [
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: path.resolve(__dirname, '../node_modules/shared/local.js'),
+    //     to: 'dist/shared', // 'static'
+    //     ignore: ['.*'],
+    //   },
+    // ]),
+    ...htmlWebpackPluginConfigs,
+  ],
   devServer: {
     serveIndex: true,
+    // publicPath: '/assets/',
+    //if you use publicpath, the content base public path must reflect
     contentBase: [
+      `${viewPath}/`,
       `${viewPath}/firstslide`,
       `${viewPath}/secondslide`,
       `${viewPath}/shared`,
     ],
-    contentBasePublicPath: ['/firstslide', '/secondslide', '/shared'],
+    contentBasePublicPath: ['/', '/firstslide', '/secondslide', '/shared'],
     watchContentBase: true,
-    setup: function (app, server) {
-      app.get('/', function (req, res) {
-        res.redirect('/firstslide');
-      });
-    },
+    // setup: function (app, server) {
+    //   app.get('/', function (req, res) {
+    //     res.redirect('/firstslide');
+    //   });
+    // },
   },
 };
