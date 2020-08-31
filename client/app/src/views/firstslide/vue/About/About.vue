@@ -19,8 +19,9 @@
 </template>
 
 <script>
-import './About.scss';
 export default {
   name: 'About',
 };
 </script>
+
+<style scoped src="./About.scss" lang="scss"></style>

@@ -31,7 +31,7 @@ module.exports = {
   mode: 'development',
   resolve: {
     alias: [],
-    extensions: ['vue', '.wasm', '.mjs', '.js', '.json', 'scss'],
+    extensions: ['vue', '.js', '.json', 'scss'],
   },
   entry: {
     ...entryPoints,
@@ -42,19 +42,16 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/, //turns css into stuff.
-        use: [
-          'vue-style-loader',
-          // 'style-loader', //3. injects into the dom using style tags
-          'css-loader', // 2. wraps our css in require/commonjs trappings so js can use it.
-          'sass-loader', // 1. turns scss into css for step 2.
-        ],
-      },
+      // {
+
+      //   test: /\.scss$/, //turns css into stuff.
+      //   use: [
+      //     // 'vue-style-loader',
+      //     'style-loader', //3. injects into the dom using style tags
+      //     'css-loader', // 2. wraps our css in require/commonjs trappings so js can use it.
+      //     'sass-loader', // 1. turns scss into css for step 2.
+      //   ],
+      // },
       // {
       //   test: /\.html$/,
       //   use: ['html-loader'],
@@ -74,6 +71,15 @@ module.exports = {
       // },
       // ... other rules
       {
+        test: /\.scss$/, //turns css into stuff.
+        use: [
+          // 'vue-style-loader',
+          'style-loader', //3. injects into the dom using style tags
+          'css-loader', // 2. wraps our css in require/commonjs trappings so js can use it.
+          'sass-loader', // 1. turns scss into css for step 2.
+        ],
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
       },
@@ -87,15 +93,6 @@ module.exports = {
             presets: ['@babel/preset-env'],
           },
         },
-      },
-      {
-        test: /\.scss$/, //turns css into stuff.
-        use: [
-          'vue-style-loader',
-          // 'style-loader', //3. injects into the dom using style tags
-          'css-loader', // 2. wraps our css in require/commonjs trappings so js can use it.
-          'sass-loader', // 1. turns scss into css for step 2.
-        ],
       },
     ],
   },
@@ -117,10 +114,10 @@ module.exports = {
     ],
     contentBasePublicPath: ['/', '/firstslide', '/secondslide', '/shared'],
     watchContentBase: true,
-    // setup: function (app, server) {
-    //   app.get('/', function (req, res) {
-    //     res.redirect('/firstslide');
-    //   });
-    // },
+    setup: function(app, server) {
+      app.get('/', function(req, res) {
+        res.redirect('/firstslide');
+      });
+    },
   },
 };

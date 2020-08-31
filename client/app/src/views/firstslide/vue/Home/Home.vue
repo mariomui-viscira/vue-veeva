@@ -19,8 +19,10 @@
 </template>
 
 <script>
-import './Home.scss';
+// import './Home.scss';
 export default {
   name: 'Home',
 };
 </script>
+
+<style scoped src="./Home.scss" lang="scss"></style>
