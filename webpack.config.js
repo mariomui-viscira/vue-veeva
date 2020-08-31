@@ -1,7 +1,7 @@
 const path = require('path');
 const srcPath = 'client/app/src';
 const viewPath = 'client/app/src/views';
-const sharedPath = 'client/app/src/shared';
+const sharedPath = 'client/app/src/views';
 
 const distPath = 'client/app/dist';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -16,8 +16,8 @@ const entryPoints = slides.reduce((accum, slideName) => {
 
 const htmlWebpackPluginConfigs = slides.map((slideName) => {
   return new HtmlWebpackPlugin({
-    inject: true,
-    template: path.resolve(srcPath, 'template.html'),
+    inject: 'head',
+    template: path.resolve(viewPath, slideName, 'index.html'),
     chunks: [`${slideName}`],
     base: './',
     filename: `${slideName}/index.html`,
@@ -28,7 +28,7 @@ module.exports = {
   mode: 'development',
   entry: {
     ...entryPoints,
-    shared: path.resolve(__dirname, sharedPath, 'shared.js'),
+    shared: path.resolve(__dirname, sharedPath, 'shared', 'local.js'),
   },
   output: {
     filename: '[name]/local.js',
@@ -36,16 +36,41 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        use: 'sass-loader',
+        test: /\.scss$/, //turns css into stuff.
+        use: [
+          'style-loader', //3. injects into the dom using style tags
+          'css-loader', // 2. wraps our css in require/commonjs trappings so js can use it.
+          'sass-loader', // 1. turns scss into css for step 2.
+        ],
+      },
+      {
+        test: /\.html$/,
+        use: ['html-loader'],
+      },
+      {
+        test: /.(js)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[hash].[ext]',
+              outputPath: 'shared',
+              esModule: false,
+            },
+          },
+        ],
       },
     ],
   },
   plugins: htmlWebpackPluginConfigs,
   devServer: {
     serveIndex: true,
-    contentBase: [`${viewPath}/firstslide/`, `${viewPath}/secondslide`],
-    contentBasePublicPath: ['/firstslide', '/secondslide'],
+    contentBase: [
+      `${viewPath}/firstslide`,
+      `${viewPath}/secondslide`,
+      `${viewPath}/shared`,
+    ],
+    contentBasePublicPath: ['/firstslide', '/secondslide', '/shared'],
     watchContentBase: true,
     setup: function (app, server) {
       app.get('/', function (req, res) {
