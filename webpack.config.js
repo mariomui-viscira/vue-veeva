@@ -29,12 +29,15 @@ const htmlWebpackPluginConfigs = slides.map((slideName) => {
 
 module.exports = {
   mode: 'development',
+  resolve: {
+    extensions: ['.wasm', '.mjs', '.js', '.json', 'scss'],
+  },
   entry: {
     ...entryPoints,
     shared: path.resolve(__dirname, viewPath, 'shared', 'local.js'),
   },
   output: {
-    filename: '[name]/local.js',
+    filename: '[name]/local.[hash].js',
   },
   module: {
     rules: [
@@ -46,10 +49,10 @@ module.exports = {
           'sass-loader', // 1. turns scss into css for step 2.
         ],
       },
-      {
-        test: /\.html$/,
-        use: ['html-loader'],
-      },
+      // {
+      //   test: /\.html$/,
+      //   use: ['html-loader'],
+      // },
       // {
       //   test: /.(js)$/,
       //   use: [
@@ -92,10 +95,10 @@ module.exports = {
     // publicPath: '/assets/',
     //if you use publicpath, the content base public path must reflect
     contentBase: [
-      `${viewPath}/`,
-      `${viewPath}/firstslide`,
-      `${viewPath}/secondslide`,
-      `${viewPath}/shared`,
+      `${distPath}/`,
+      `${distPath}/firstslide`,
+      `${distPath}/secondslide`,
+      `${distPath}/shared`,
     ],
     contentBasePublicPath: ['/', '/firstslide', '/secondslide', '/shared'],
     watchContentBase: true,

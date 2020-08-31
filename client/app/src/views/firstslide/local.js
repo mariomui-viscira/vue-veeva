@@ -1,5 +1,4 @@
-// require('./styles.scss');
-
+import './style.scss';
 document.addEventListener('DOMContentLoaded', () => {
   console.log('firstslide');
   const $h1 = document.createElement('h1');
