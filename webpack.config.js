@@ -7,11 +7,27 @@ const distPath = 'client/app/dist';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const entryFileLocation = path.resolve(__dirname, viewPath, 'main.js');
 console.log(entryFileLocation);
+
+const slides = ['firstslide', 'secondslide'];
+const entryPoints = slides.reduce((accum, slideName) => {
+  accum[slideName] = path.resolve(__dirname, viewPath, slideName, 'local.js');
+  return accum;
+}, {});
+
+const htmlWebpackPluginConfigs = slides.map((slideName) => {
+  return new HtmlWebpackPlugin({
+    inject: true,
+    template: path.resolve(srcPath, 'template.html'),
+    chunks: [`${slideName}`],
+    base: './',
+    filename: `${slideName}/index.html`,
+  });
+});
+
 module.exports = {
   mode: 'development',
   entry: {
-    firstslide: path.resolve(__dirname, viewPath, 'firstslide', 'local.js'),
-    secondslide: path.resolve(__dirname, viewPath, 'secondslide', 'local.js'),
+    ...entryPoints,
     shared: path.resolve(__dirname, sharedPath, 'shared.js'),
   },
   output: {
@@ -32,20 +48,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: path.resolve(srcPath, 'template.html'),
-      chunks: ['firstslide'],
-      base: './',
-      filename: 'firstslide/index.html',
-    }),
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: path.resolve(srcPath, 'template.html'),
-      base: './',
-      chunks: ['secondslide'],
-      filename: 'secondslide/index.html',
-    }),
-  ],
+  plugins: htmlWebpackPluginConfigs,
 };
