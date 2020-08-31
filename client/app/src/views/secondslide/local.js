@@ -1,3 +1,5 @@
+// import './styles.scss';
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('secondslide');
   const $h1 = document.createElement('h1');

@@ -2,6 +2,7 @@ const path = require('path');
 const srcPath = 'client/app/src';
 const viewPath = 'client/app/src/views';
 // const sharedPath = 'client/app/src/shared';
+const HtmlWebpackInjector = require('html-webpack-injector');
 
 const distPath = 'client/app/dist';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -20,7 +21,7 @@ const htmlWebpackPluginConfigs = slides.map((slideName) => {
   return new HtmlWebpackPlugin({
     inject: 'head',
     template: path.resolve(viewPath, slideName, 'index.html'),
-    chunks: [`${slideName}`],
+    chunks: [`${slideName}`, 'shared'],
     base: './',
     filename: `${slideName}/index.html`,
   });
@@ -55,13 +56,23 @@ module.exports = {
       //     {
       //       loader: 'file-loader',
       //       options: {
-      //         name: '[name].[hash].[ext]',
-      //         outputPath: 'shared',
+      //         name: '[name].[ext]',
+      //         outputPath: '[name]',
       //         esModule: false,
       //       },
       //     },
       //   ],
       // },
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
     ],
   },
   plugins: [
@@ -73,6 +84,8 @@ module.exports = {
     //   },
     // ]),
     ...htmlWebpackPluginConfigs,
+    // new HtmlWebpackInlineSourcePlugin(),
+    new HtmlWebpackInjector(),
   ],
   devServer: {
     serveIndex: true,
