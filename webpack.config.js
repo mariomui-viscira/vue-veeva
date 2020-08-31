@@ -33,13 +33,6 @@ module.exports = {
   output: {
     filename: '[name]/local.js',
   },
-  // output: {
-  // filename: (pathData) => {
-  //   return pathData.chunk.name === 'main' ? 'me.js' : 'you.js';
-  // },
-  // path: path.resolve(__dirname, distPath),
-  // },
-
   module: {
     rules: [
       {
@@ -49,4 +42,15 @@ module.exports = {
     ],
   },
   plugins: htmlWebpackPluginConfigs,
+  devServer: {
+    serveIndex: true,
+    contentBase: [`${viewPath}/firstslide/`, `${viewPath}/secondslide`],
+    contentBasePublicPath: ['/firstslide', '/secondslide'],
+    watchContentBase: true,
+    setup: function (app, server) {
+      app.get('/', function (req, res) {
+        res.redirect('/firstslide');
+      });
+    },
+  },
 };

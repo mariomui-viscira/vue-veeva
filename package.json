@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "start:dev": "webpack-dev-server"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "sass": "^1.26.10",
     "sass-loader": "^10.0.1",
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   }
 }
