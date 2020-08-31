@@ -11,7 +11,7 @@ module.exports = {
   mode: 'development',
   entry: {
     firstslide: path.resolve(__dirname, viewPath, 'firstslide', 'local.js'),
-    firstslide: path.resolve(__dirname, viewPath, 'secondslide', 'local.js'),
+    secondslide: path.resolve(__dirname, viewPath, 'secondslide', 'local.js'),
     shared: path.resolve(__dirname, sharedPath, 'shared.js'),
   },
   output: {
@@ -37,7 +37,15 @@ module.exports = {
       inject: true,
       template: path.resolve(srcPath, 'template.html'),
       chunks: ['firstslide'],
+      base: './',
       filename: 'firstslide/index.html',
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: path.resolve(srcPath, 'template.html'),
+      base: './',
+      chunks: ['secondslide'],
+      filename: 'secondslide/index.html',
     }),
   ],
 };
