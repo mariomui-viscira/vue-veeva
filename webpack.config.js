@@ -1,4 +1,5 @@
 const path = require('path');
+//TODO clean this up an place in env
 const srcPath = 'client/app/src';
 const viewPath = 'client/app/src/views';
 // const sharedPath = 'client/app/src/shared';
@@ -7,9 +8,8 @@ const HtmlWebpackInjector = require('html-webpack-injector');
 const distPath = 'client/app/dist';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-// const entryFileLocation = path.resolve(__dirname, viewPath, 'main.js');
-// console.log(entryFileLocation);
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const slides = ['firstslide', 'secondslide'];
 const entryPoints = slides.reduce((accum, slideName) => {
@@ -30,7 +30,7 @@ const htmlWebpackPluginConfigs = slides.map((slideName) => {
 module.exports = {
   mode: 'development',
   resolve: {
-    extensions: ['.wasm', '.mjs', '.js', '.json', 'scss'],
+    extensions: ['vue', '.wasm', '.mjs', '.js', '.json', 'scss'],
   },
   entry: {
     ...entryPoints,
@@ -42,9 +42,14 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader'],
+      },
+      {
         test: /\.scss$/, //turns css into stuff.
         use: [
-          'style-loader', //3. injects into the dom using style tags
+          'vue-style-loader',
+          // 'style-loader', //3. injects into the dom using style tags
           'css-loader', // 2. wraps our css in require/commonjs trappings so js can use it.
           'sass-loader', // 1. turns scss into css for step 2.
         ],
@@ -66,9 +71,15 @@ module.exports = {
       //     },
       //   ],
       // },
+      // ... other rules
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
+        include: [path.join(__dirname, srcPath)],
         use: {
           loader: 'babel-loader',
           options: {
@@ -76,19 +87,22 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.scss$/, //turns css into stuff.
+        use: [
+          'vue-style-loader',
+          // 'style-loader', //3. injects into the dom using style tags
+          'css-loader', // 2. wraps our css in require/commonjs trappings so js can use it.
+          'sass-loader', // 1. turns scss into css for step 2.
+        ],
+      },
     ],
   },
   plugins: [
-    // new CopyWebpackPlugin([
-    //   {
-    //     from: path.resolve(__dirname, '../node_modules/shared/local.js'),
-    //     to: 'dist/shared', // 'static'
-    //     ignore: ['.*'],
-    //   },
-    // ]),
     ...htmlWebpackPluginConfigs,
-    // new HtmlWebpackInlineSourcePlugin(),
     new HtmlWebpackInjector(),
+    new VueLoaderPlugin(),
+    new CleanWebpackPlugin(),
   ],
   devServer: {
     serveIndex: true,
