@@ -1,4 +1,6 @@
 const path = require('path');
+const querystring = require('querystring');
+const url = require('url');
 //TODO clean this up an place in env
 const srcPath = 'client/app/src';
 const viewPath = 'client/app/src/views';
@@ -19,7 +21,7 @@ const entryPoints = slides.reduce((accum, slideName) => {
 
 const htmlWebpackPluginConfigs = slides.map((slideName) => {
   return new HtmlWebpackPlugin({
-    inject: 'head',
+    inject: true,
     template: path.resolve(viewPath, slideName, 'index.html'),
     chunks: [`${slideName}`, 'shared'],
     base: './',
@@ -31,7 +33,7 @@ module.exports = {
   mode: 'development',
   resolve: {
     alias: [],
-    extensions: ['.js', '.json', 'scss'],
+    extensions: ['.js', 'png', '.json', 'scss'],
   },
   entry: {
     ...entryPoints,
@@ -56,19 +58,7 @@ module.exports = {
       //   test: /\.html$/,
       //   use: ['html-loader'],
       // },
-      // {
-      //   test: /.(js)$/,
-      //   use: [
-      //     {
-      //       loader: 'file-loader',
-      //       options: {
-      //         name: '[name].[ext]',
-      //         outputPath: '[name]',
-      //         esModule: false,
-      //       },
-      //     },
-      //   ],
-      // },
+
       // ... other rules
       {
         test: /\.vue$/,
@@ -94,6 +84,26 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(png)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name(resourcePath, resourceQuery) {
+              // const path = path.parse(resourcePath);
+              const location = Object.values(
+                querystring.parse(resourceQuery)
+              ).reduce((accum, item) => {
+                accum.slide = item;
+                return accum;
+              }, {});
+              return `${location.slide}/[name].[ext]`;
+            },
+            // name: '[path]/[name].[ext]',
+            // outputPath: '[path]/[name]',
+          },
+        },
+      },
     ],
   },
   plugins: [
@@ -115,6 +125,7 @@ module.exports = {
     contentBasePublicPath: ['/', '/firstslide', '/secondslide', '/shared'],
     watchContentBase: true,
     setup: function(app, server) {
+      // doesnt work. deprecated.
       app.get('/', function(req, res) {
         res.redirect('/firstslide');
       });

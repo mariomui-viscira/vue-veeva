@@ -1,17 +1,8 @@
 <template>
   <div>
+    <img width="100" height="100" v-bind:src="firstImage" alt="" class="src" />
     <ul class="list">
       <li>
-        <!-- <li 
-        v-for="(article, index) in articles" 
-        :key="index"
-      >
-        <h2 class="list__title">
-          {{ article.title }}
-        </h2>
-        <p class="list__content">
-          {{ article.body }}
-        </p> -->
         Home component
       </li>
     </ul>
@@ -20,8 +11,14 @@
 
 <script>
 // import './Home.scss';
+import firstImage from '../../images/firstimage-asset.png';
 export default {
   name: 'Home',
+  data() {
+    return {
+      firstImage,
+    };
+  },
 };
 </script>
 
