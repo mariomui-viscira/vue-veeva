@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img width="100" height="100" v-bind:src="firstImage" alt="" class="src" />
+    <img width="100" height="100" :src="firstImage" alt="" class="src" />
     <ul class="list">
       <li>
         Home component
