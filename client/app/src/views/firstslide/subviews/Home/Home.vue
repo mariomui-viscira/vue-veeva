@@ -11,7 +11,7 @@
 
 <script>
 // import './Home.scss';
-import firstImage from '../../images/firstimage-asset.png';
+import firstImage from '../../images/firstimage-asset.png?subview=firstslide';
 export default {
   name: 'Home',
   data() {
