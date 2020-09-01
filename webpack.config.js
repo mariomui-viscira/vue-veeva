@@ -97,6 +97,7 @@ module.exports = {
                 accum.slide = item;
                 return accum;
               }, {});
+
               return `${location.slide}/[name].[ext]`;
             },
             // name: '[path]/[name].[ext]',
