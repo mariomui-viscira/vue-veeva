@@ -3,8 +3,8 @@ import Router from 'vue-router';
 
 // import { SiteName, TitleSeparator, RouterMode } from '@Config';
 
-import Home from '../Home/Home.vue';
-import About from '../About/About.vue';
+import Home from '../subviews/Home/Home.vue';
+import About from '../subviews/About/About.vue';
 
 Vue.use(Router);
 

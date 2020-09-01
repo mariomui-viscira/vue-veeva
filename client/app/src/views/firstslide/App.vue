@@ -2,7 +2,7 @@
   <div id="#app">
     <header>
       <h1 class="title">
-        {{ title }}
+        <!-- {{ title }} -->
       </h1>
       <nav>
         <ul>
@@ -24,13 +24,7 @@
 </template>
 
 <script>
-// import RwvHeader from "@/components/TheHeader";
-// import RwvFooter from "@/components/TheFooter";
 export default {
   name: 'App',
-  // components: {
-  //   // RwvHeader,
-  //   // RwvFooter
-  // },
 };
 </script>

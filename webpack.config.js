@@ -31,7 +31,7 @@ module.exports = {
   mode: 'development',
   resolve: {
     alias: [],
-    extensions: ['vue', '.js', '.json', 'scss'],
+    extensions: ['.js', '.json', 'scss'],
   },
   entry: {
     ...entryPoints,
@@ -71,6 +71,10 @@ module.exports = {
       // },
       // ... other rules
       {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+      {
         test: /\.scss$/, //turns css into stuff.
         use: [
           // 'vue-style-loader',
@@ -78,10 +82,6 @@ module.exports = {
           'css-loader', // 2. wraps our css in require/commonjs trappings so js can use it.
           'sass-loader', // 1. turns scss into css for step 2.
         ],
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
       },
       {
         test: /\.m?js$/,
@@ -98,8 +98,8 @@ module.exports = {
   },
   plugins: [
     ...htmlWebpackPluginConfigs,
-    new HtmlWebpackInjector(),
     new VueLoaderPlugin(),
+    new HtmlWebpackInjector(),
     new CleanWebpackPlugin(),
   ],
   devServer: {
