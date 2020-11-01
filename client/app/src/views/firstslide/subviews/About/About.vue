@@ -11,23 +11,22 @@
         </h2>
         <p class="list__content">
           {{ article.body }}
-        </p> -->
-        <example></example>
-        About component
+        </p>-->
+        <example></example>About component
       </li>
-      s
     </ul>
   </div>
 </template>
 
 <script>
-import example from '../../components/exampleCmp.vue';
+import example from "../../components/exampleCmp.vue";
 export default {
-  name: 'About',
+  name: "About",
   components: {
     example,
   },
 };
 </script>
 
-<style scoped src="./About.scss" lang="scss"></style>
+<style scoped src="./About.scss" lang="scss">
+</style>

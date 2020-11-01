@@ -1,19 +1,17 @@
 <template>
   <div>
-    <img width="100" height="100" :src="firstImage" alt="" class="src" />
+    <img width="100" height="100" :src="firstImage" alt class="src" />
     <ul class="list">
-      <li>
-        Home component
-      </li>
+      <li>Home component</li>
     </ul>
   </div>
 </template>
 
 <script>
 // import './Home.scss';
-import firstImage from '../../images/firstimage-asset.png?subview=firstslide';
+import firstImage from "../../images/firstimage-asset.png?subview=firstslide";
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
       firstImage,
